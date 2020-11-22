@@ -1,8 +1,8 @@
 /* --- Set-up the basics of the game file --- */
-var config = {
+const config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    width: 256,
+    height: 272,
     physics: {
         default: 'arcade',
         arcade: {
