@@ -37,6 +37,45 @@ class Scene2 extends Phaser.Scene{
             repeat: 0,
             hideOnComplete: true
         })
+
+        /* --- Create the animations for the power-ups --- */
+        this.anims.create({
+            key: "gray",
+            frames: this.anims.generateFrameNumbers("power-up", {
+                start: 0,
+                end: 1
+            }),
+            frameRate: 20,
+            repeat: -1
+        })
+        this.anims.create({
+            key: "red",
+            frames: this.anims.generateFrameNumbers("power-up", {
+                start: 2, // specifiy these options so we can create 2 objects with the same sprite file
+                end: 3
+            }),
+            frameRate: 20,
+            repeat: -1
+        })
+
+        this.powerUps = this.physics.add.group()
+
+        /* Create the number of power-ups we want */
+        let maxObjects = 4
+        for (let i = 0; i <= maxObjects; i++){
+            let powerUp = this.physics.add.sprite(16,16, "power-up")
+            this.powerUps.add(powerUp)
+            powerUp.setRandomPosition(0,0, game.config.width, game.config.height) // put them at a random position on the screen
+        
+            if (Math.random() > 0.5){
+                powerUp.play("red")
+            } else {
+                powerUp.play("gray")
+            }
+
+            powerUp.setVelocity(100, 100)
+        }
+
         
         /* --- Play the animations --- */
         this.ship1.play("ship1_anim")

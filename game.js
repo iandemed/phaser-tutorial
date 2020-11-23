@@ -6,7 +6,8 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 200 }
+            gravity: { y: 200 },
+            debug: false
         }
     },
     /* Scenes are places where the elements of the game live - we can have a 
