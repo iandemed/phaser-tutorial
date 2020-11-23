@@ -25,11 +25,17 @@ class Scene1 extends Phaser.Scene {
             frameHeight: 32
         })
 
+        /* --- Load in effects --- */
+
         this.load.spritesheet("explosion", "../assets/spritesheets/explosion.png", {
             frameWidth: 16,
             frameHeight: 16
         })
         this.load.spritesheet("power-up", "../assets/spritesheets/power-up.png", {
+            frameWidth: 16,
+            frameHeight: 16
+        })
+        this.load.spritesheet("beam", "../assets/spritesheets/beam.png", {
             frameWidth: 16,
             frameHeight: 16
         })
@@ -59,12 +65,22 @@ class Scene1 extends Phaser.Scene {
             frameRate: 20,
             repeat: -1
         })
+
+        /* --- Create animations for effects --- */
+
         this.anims.create({
             key: "explode",
             frames: this.anims.generateFrameNumbers("explosion"),
             frameRate: 20,
             repeat: 0,
             hideOnComplete: true
+        })
+
+        this.anims.create({
+            key: "beam_anim",
+            frames: this.anims.generateFrameNumbers("beam"),
+            frameRate: 20,
+            repeat: -1
         })
 
         /* --- Create the animations for the power-ups --- */

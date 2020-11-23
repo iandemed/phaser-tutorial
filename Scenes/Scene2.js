@@ -11,12 +11,13 @@ class Scene2 extends Phaser.Scene{
         this.ship2 = this.add.sprite(config.width/2, config.height/2, "ship2")
         this.ship3 = this.add.sprite(config.width/2 + 50, config.height/2, "ship3")
         
+        /* --- Create physics for player --- */
         this.player = this.physics.add.sprite(config.width / 2 - 8, config.height - 64, "player")
         this.player.setCollideWorldBounds(true)
 
         this.powerUps = this.physics.add.group()
 
-        /* Create the number of power-ups we want */
+        /* --- Create the number of power-ups we want --- */
         let maxObjects = 4
         for (let i = 0; i <= maxObjects; i++){
             let powerUp = this.physics.add.sprite(16,16, "power-up")
@@ -48,8 +49,13 @@ class Scene2 extends Phaser.Scene{
 
         this.input.on('gameobjectdown', this.destroyShip, this)
 
-        this.cursorKeys = this.input.keyboard.createCursorKeys()        
-        
+        /* --- Set controls for the player --- */
+        this.cursorKeys = this.input.keyboard.createCursorKeys()
+        this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+
+        this.projectiles = this.add.group()
+
+        this.physics.add.collider(this.projectiles, this.powerUps)
 
     }
 
@@ -68,7 +74,17 @@ class Scene2 extends Phaser.Scene{
 
         this.background.tilePositionY -= 0.5
 
+        /* --- Update once player keys have been pressed --- */
         this.movePlayerManager()
+
+        if (Phaser.Input.Keyboard.JustDown(this.spacebar)){
+            this.shootBeam()
+        }
+
+        for(let i = 0; i < this.projectiles.getChildren().length; i++){
+            let beam = this.projectiles.getChildren()[i]
+            beam.update()
+        }
     }
 
     movePlayerManager(){
@@ -77,7 +93,7 @@ class Scene2 extends Phaser.Scene{
         } else if (this.cursorKeys.right.isDown){
             this.player.setVelocityX(gameSettings.playerSpeed)
         } else{
-            this.player.setVelocityX(0)
+            this.player.setVelocityX(0) // without this line of code, the PC would move indefintely
         }
 
         if(this.cursorKeys.up.isDown){
@@ -98,5 +114,9 @@ class Scene2 extends Phaser.Scene{
     destroyShip(pointer, gameObject){
         gameObject.setTexture("explosion")
         gameObject.play("explode")
+    }
+
+    shootBeam(){
+        let beam = new Beam(this)
     }
 }
