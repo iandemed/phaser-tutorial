@@ -1,4 +1,9 @@
 /* --- Set-up the basics of the game file --- */
+
+const gameSettings = {
+    playerSpeed: 200,
+}
+
 const config = {
     type: Phaser.AUTO,
     width: 256,
@@ -6,7 +11,6 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 200 },
             debug: false
         }
     },
